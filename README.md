@@ -1,4 +1,4 @@
-# Sway Screenshot Tool
+# Sway Snapdrag Tool
 
 A Python script for taking screenshots on the [Sway](https://swaywm.org/) Wayland compositor.
 
@@ -29,8 +29,8 @@ Ensure you have the following dependencies installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/sway-screenshot.git
-cd sway-screenshot
+git clone https://github.com/j0lle/sway-snapdrag.git
+cd sway-snapdrag
 ```
 
 ### Install Dependencies
