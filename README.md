@@ -56,7 +56,7 @@ chmod +x sway_screenshot.py
 ### Optional: Install to System Path
 
 ```bash
-sudo cp sway_screenshot.py /usr/local/bin/sway-screenshot
+sudo cp sway-snapdrag.py /usr/local/bin/sway-snapdrag
 ```
 
 ## Usage
@@ -64,13 +64,13 @@ sudo cp sway_screenshot.py /usr/local/bin/sway-screenshot
 ### Run the Script
 
 ```bash
-./sway_screenshot.py
+./sway-snapdrag.py
 ```
 
 Or, if installed in the system path:
 
 ```bash
-sway-screenshot
+sway-snapdrag
 ```
 
 ### Bind to a Key Combination in Sway
@@ -78,7 +78,7 @@ sway-screenshot
 Add the following line to your Sway configuration file (`~/.config/sway/config`):
 
 ```bash
-bindsym Print exec sway-screenshot
+bindsym Print exec sway-snapdrag
 ```
 
 ## Troubleshooting
@@ -88,7 +88,7 @@ If you encounter issues:
 - Ensure that all dependencies are installed and accessible.
 - Check the script's output for error messages.
 - Verify that the script has executable permissions.
-- Ensure that `sway-screenshot` is in your `PATH` if you installed it there.
+- Ensure that `sway-snapdrag` is in your `PATH` if you installed it there.
 
 ## Contributing
 
