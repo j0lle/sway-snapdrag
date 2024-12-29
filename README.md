@@ -80,7 +80,9 @@ Then reload sway
 sway reload
 ```
 You should now see the Camera Icon
-![image](https://github.com/user-attachments/assets/28879db6-bc9b-4b90-b8c6-837c5c0d0c93)
+
+![image](https://github.com/user-attachments/assets/093ae93c-b94f-4b18-a7ea-ac2efe5d552b)
+
 
 
 ## Troubleshooting
