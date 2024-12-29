@@ -85,8 +85,6 @@ If you encounter issues:
 
 - Ensure that all dependencies are installed and accessible.
 - Check the script's output for error messages.
-- Verify that the script has executable permissions.
-- Ensure that `sway-snapdrag` is in your `PATH` if you installed it there.
 
 ## Contributing
 
