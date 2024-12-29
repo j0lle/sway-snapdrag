@@ -41,36 +41,12 @@ cd sway-snapdrag
 sudo pacman -S sway slurp grim wl-clipboard libnotify
 ```
 
-#### Debian/Ubuntu
-
-```bash
-sudo apt install sway slurp grim wl-clipboard libnotify-bin
-```
-
-### Make the Script Executable
-
-```bash
-chmod +x sway_screenshot.py
-```
-
-### Optional: Install to System Path
-
-```bash
-sudo cp sway-snapdrag.py /usr/local/bin/sway-snapdrag
-```
-
 ## Usage
 
 ### Run the Script
 
 ```bash
-./sway-snapdrag.py
-```
-
-Or, if installed in the system path:
-
-```bash
-sway-snapdrag
+python sway-snapdrag.py
 ```
 
 ### Bind to a Key Combination in Sway
@@ -79,6 +55,14 @@ Add the following line to your Sway configuration file (`~/.config/sway/config`)
 
 ```bash
 bindsym Print exec sway-snapdrag
+```
+
+### Add to [bumblebee-status](https://github.com/tobi-wan-kenobi/bumblebee-status)
+
+Copy bumblebee-status-snapdrag.py to your modules/contrib (`~/.config/bumblebee_status/modules/contrib/`) (or where you installed it):
+
+```bash
+cp bumblebee-status-snapdrag.py ~/.config/bumblebee_status/modules/contrib/
 ```
 
 ## Troubleshooting
