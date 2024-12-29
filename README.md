@@ -61,10 +61,11 @@ bindsym Print exec sway-snapdrag
 
 ### 3. Add to [bumblebee-status](https://github.com/tobi-wan-kenobi/bumblebee-status)
 
-Copy bumblebee-status-snapdrag.py to your modules/contrib (`~/.config/bumblebee_status/modules/contrib/`) (or where you installed it):
+Copy bumblebee-status-snapdrag.py to your modules/contrib (`~/.config/bumblebee_status/modules/contrib/`) (or where you installed it), and create a symlink to sway-snapdrag in your config folder (you can also edit bumblebee-status-snapdrag.py to look elsewhere for sway-snapdrag.py)
 
 ```bash
 cp bumblebee-status-snapdrag.py ~/.config/bumblebee_status/modules/contrib/
+cd ~/.config && ln -s ~/sway-snapdrag/sway-snapdrag.py sway-snapdrag.py
 ```
 
 Now add it to your bar config in the Sway config file
