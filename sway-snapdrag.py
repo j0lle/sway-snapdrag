@@ -4,6 +4,7 @@ import json
 import time
 from typing import List, Optional, Dict, Any
 
+
 class ScreenshotManager:
     def __init__(self, save_dir: str):
         self.save_dir = os.path.expanduser(save_dir)
@@ -12,14 +13,17 @@ class ScreenshotManager:
     def fetch_sway_tree(self) -> Optional[Dict[str, Any]]:
         try:
             swaymsg_output = subprocess.check_output(['swaymsg', '-t', 'get_tree'], universal_newlines=True)
-            return json.loads(swaymsg_output)
+            tree = json.loads(swaymsg_output)
+            return tree
         except Exception as e:
             print("Error fetching sway tree:", e)
             return None
 
     def collect_window_data(self, node: Dict[str, Any]) -> List[str]:
         windows = []
-        if 'pid' in node and node.get('visible', False):
+        # print(node)
+        # If the node has a PID and is visible, collect its data
+        if 'pid' in node and node.get('visible', False) and node.get('focused', False):
             rect = node.get('rect', {})
             window_rect = node.get('window_rect', {})
             x = rect.get('x', 0) + window_rect.get('x', 0)
@@ -28,13 +32,17 @@ class ScreenshotManager:
             height = window_rect.get('height', 0)
             app_id = node.get('app_id') or node.get('name', 'unknown')
             windows.append(f"{x},{y} {width}x{height} {app_id}")
+
+        # Recursively process child nodes
         for child in node.get('nodes', []) + node.get('floating_nodes', []):
             windows.extend(self.collect_window_data(child))
+
         return windows
 
     def run_slurp(self, window_data: str) -> Optional[str]:
         try:
-            slurp_proc = subprocess.Popen(['slurp'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
+            slurp_proc = subprocess.Popen(['slurp'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                          universal_newlines=True)
             selected_region, _ = slurp_proc.communicate(input=window_data)
             return selected_region.strip()
         except Exception as e:
@@ -72,6 +80,11 @@ class ScreenshotManager:
         return f"{safe_name}-{time.strftime('%Y%m%d-%H%M%S')}.png"
 
     def process_selected_region(self, sway_tree: Dict[str, Any], selected_region: str, window_data_list: List[str]):
+        print("Processing selected region:", selected_region)
+        for line in window_data_list:
+            if line.startswith(selected_region):
+                print("Matched window selection.")
+
         matched_window = next((line for line in window_data_list if line.startswith(selected_region)), None)
 
         if matched_window:
@@ -83,10 +96,10 @@ class ScreenshotManager:
             x, y, w, h = self.parse_region(selected_region)
             window_node = self.find_window_at_point(sway_tree, x, y)
             app_name = (
-                window_node.get('app_id')
-                or window_node.get('name')
-                or window_node.get('window_properties', {}).get('class')
-                or 'screenshot'
+                    window_node.get('app_id')
+                    or window_node.get('name')
+                    or window_node.get('window_properties', {}).get('class')
+                    or 'screenshot'
             ) if window_node else 'screenshot'
             region = selected_region
 
@@ -100,6 +113,23 @@ class ScreenshotManager:
         w, h = map(int, w_h.split('x'))
         return x, y, w, h
 
+    @staticmethod
+    def get_focused_workspace():
+        result = subprocess.run(['swaymsg', '-t', 'get_workspaces'], capture_output=True, text=True)
+        workspaces = json.loads(result.stdout)
+        for workspace in workspaces:
+            if workspace.get('focused'):
+                return workspace.get('name')
+
+    @staticmethod
+    def clean_sway_tree(node: Dict[str, Any]) -> Dict[str, Any]:
+        for node in node.get('nodes', []) + node.get('floating_nodes', []):
+            if node.get('type') == 'workspace' and node.get('name') != ScreenshotManager.get_focused_workspace():
+                node.clear()
+            else:
+                ScreenshotManager.clean_sway_tree(node)
+        return node
+
 
 def main():
     manager = ScreenshotManager(save_dir="~/Pictures/Screenshots")
@@ -107,7 +137,7 @@ def main():
 
     if not sway_tree:
         return
-
+    clean_tree = manager.clean_sway_tree(sway_tree)
     window_data_list = manager.collect_window_data(sway_tree)
     window_data = '\n'.join(window_data_list)
     selected_region = manager.run_slurp(window_data)
