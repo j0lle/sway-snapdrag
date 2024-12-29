@@ -23,7 +23,7 @@ class ScreenshotManager:
         windows = []
         # print(node)
         # If the node has a PID and is visible, collect its data
-        if 'pid' in node and node.get('visible', False) and node.get('focused', False):
+        if 'pid' in node and node.get('visible', False):
             rect = node.get('rect', {})
             window_rect = node.get('window_rect', {})
             x = rect.get('x', 0) + window_rect.get('x', 0)
