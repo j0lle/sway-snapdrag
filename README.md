@@ -78,6 +78,9 @@ Then reload sway
 ```bash
 sway reload
 ```
+You should now see the Camera Icon
+![image](https://github.com/user-attachments/assets/28879db6-bc9b-4b90-b8c6-837c5c0d0c93)
+
 
 ## Troubleshooting
 
