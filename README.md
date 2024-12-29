@@ -43,13 +43,15 @@ sudo pacman -S sway slurp grim wl-clipboard libnotify
 
 ## Usage
 
-### Run the Script
+Use however you want! Some ideas:
+
+### 1. Run the Script
 
 ```bash
 python sway-snapdrag.py
 ```
 
-### Bind to a Key Combination in Sway
+### 2. Bind to a Key Combination in Sway
 
 Add the following line to your Sway configuration file (`~/.config/sway/config`):
 
@@ -57,12 +59,24 @@ Add the following line to your Sway configuration file (`~/.config/sway/config`)
 bindsym Print exec sway-snapdrag
 ```
 
-### Add to [bumblebee-status](https://github.com/tobi-wan-kenobi/bumblebee-status)
+### 3. Add to [bumblebee-status](https://github.com/tobi-wan-kenobi/bumblebee-status)
 
 Copy bumblebee-status-snapdrag.py to your modules/contrib (`~/.config/bumblebee_status/modules/contrib/`) (or where you installed it):
 
 ```bash
 cp bumblebee-status-snapdrag.py ~/.config/bumblebee_status/modules/contrib/
+```
+
+Now add it to your bar config in the Sway config file
+e.g.: 
+```
+bar {
+	status_command bumblebee-status -m git time date nic publicip cpu memory nvidiagpu disk docker_ps getcrypto bumblebee-status-snapdrag system -p getcrypto.getltc=0 nvidiagpu.format="GPU {temp}°C {mem_used}/{mem_total} MiB" -t zengarden
+}
+```
+Then reload sway
+```bash
+sway reload
 ```
 
 ## Troubleshooting
