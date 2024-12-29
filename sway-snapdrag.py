@@ -137,7 +137,7 @@ def main():
 
     if not sway_tree:
         return
-    clean_tree = manager.clean_sway_tree(sway_tree)
+    manager.clean_sway_tree(sway_tree)
     window_data_list = manager.collect_window_data(sway_tree)
     window_data = '\n'.join(window_data_list)
     selected_region = manager.run_slurp(window_data)
